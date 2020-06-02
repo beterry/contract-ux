@@ -2,4 +2,29 @@
 
 .topBar{
     background-color: $primary;
+    display: flex;
+    justify-content: space-between;
+    box-shadow: 0px 2px 3px #00000033;;
+    button{
+        width: 2.5rem;
+        height: 2.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: none;
+        background: none;
+        border-radius: 50%;
+        margin: .5rem;
+        cursor: pointer;
+    }
+    button:hover{
+        background: $p-800;
+    }
+    div{
+        display: flex;
+        align-items: center;
+    }
+    h1{
+        color: white;
+    }
 }
