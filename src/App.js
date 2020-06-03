@@ -4,15 +4,17 @@ import './global.scss';
 //import fake data
 import data from './data/data.js'
 
+//import layout
+import Layout from './layout/Layout.component'
+
 //import sections
-import TopBar from './sections/TopBar/TopBar.component'
+import ContractList from './sections/ContractList/ContractList.component'
 
 function App() {
-  console.log(data)
   return (
-    <div>
-      <TopBar />
-    </div>
+    <Layout>
+      <ContractList contracts={data}/>
+    </Layout>
   );
 }
 
