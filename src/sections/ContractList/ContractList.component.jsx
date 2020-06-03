@@ -41,6 +41,7 @@ export default class ContractList extends Component {
                                 quantity={contract.quantity}
                                 starting={moment(contract.starting).format("M/D/YYYY")}
                                 key={contract.id}
+                                id={contract.id}
                             />
                         )}
                     </ul>
@@ -53,6 +54,7 @@ export default class ContractList extends Component {
                                 quantity={contract.quantity}
                                 starting={moment(contract.starting).format("M/D/YYYY")}
                                 key={contract.id}
+                                id={contract.id}
                             />
                         )}
                     </ul>
