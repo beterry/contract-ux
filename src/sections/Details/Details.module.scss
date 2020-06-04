@@ -1,0 +1,106 @@
+@import "../../styles/colors.scss";
+
+.details{
+    flex-grow: 1;
+    display: flex;
+}
+
+.right{
+    flex-grow: 1;
+    border-left: 1px solid rgba(0,0,0,.1);
+}
+
+.left{
+    width: 30%;
+    button{
+        margin-left: 2rem;
+    }
+}
+
+.detail{
+    list-style-type: none;
+    margin: 1rem;
+    padding: 1rem;
+    h6{
+        color: $p-300;
+    }
+}
+
+.tabs{
+    display: flex;
+    button{
+        width: 50%;
+        text-align: center;
+        padding: .875rem;
+        border-radius: 0;
+        background: none;
+    }
+}
+
+.tab__inactive{
+    background: none;
+    border: none;
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    color: rgba(0,0,0,.6)
+}
+
+.tab__active{
+    background: none;
+    border: none;
+    border-bottom: 2px solid $secondary;
+    color: $secondary;
+}
+
+.tab__inactive:hover{
+    cursor: pointer;
+    background: rgba(0,0,0,.05)
+}
+
+.campaignGrid{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 1rem;
+    padding: 1rem;
+}
+
+.card{
+    border: 1px solid rgba(0,0,0,.1);
+    border-radius: .25rem;
+    overflow: hidden;
+    img{
+        height: 80px;
+    }
+    h6{
+        color: $p-300;
+    }
+}
+
+.card__content{
+    padding: 1rem;
+}
+
+.card__imgContainer{
+    background: rgba(0,0,0,.1);
+    text-align: center;
+    padding: 2.5rem 0;
+}
+
+.card__dateRange{
+    display: flex;
+    align-items: center;
+    margin: 1rem 0;
+    p:first-child{
+        margin-right: .5rem;
+    }
+    p:last-child{
+        margin-left: .5rem;
+    }
+}
+
+.card__buttons{
+    display: flex;
+    margin: -.5rem;
+    button:first-child{
+        margin-right: 1rem;
+    }
+}

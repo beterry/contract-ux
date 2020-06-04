@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
+import {Link} from 'react-router-dom'
 
 //import styles
 import styles from './ContractList.module.scss'
-
-//import components
-import Contract from '../../components/lists/Contract/Contract.component'
 
 //import libraries
 import moment from 'moment'
@@ -14,6 +12,23 @@ const filterStatus = (contracts, status) => {
     let filteredArray = contracts.filter(contract => contract.status === status)
     filteredArray.sort((a,b) => b.starting.getTime() - a.starting.getTime())
     return filteredArray
+}
+
+function Contract({name, business, quantity, starting, id}) {
+    return (
+        <Link to={`/contracts/${id}`}>
+            <li className={styles.contract}>
+                <div>
+                    <h2>{name}</h2>
+                    <p>{business}</p>
+                    <p>{quantity}</p>
+                </div>
+                <div>
+                    <p>{starting}</p>
+                </div>
+            </li>
+        </Link>
+    )
 }
 
 export default class ContractList extends Component {
@@ -32,7 +47,7 @@ export default class ContractList extends Component {
         return (
             <section className={styles.contractList}>
                 <div>
-                    <h6 className={styles.requiresAction}>Requires Action</h6>
+                    <h5 className={styles.requiresAction}>Requires Action</h5>
                     <ul>
                         {this.state.requiresAction.map(contract => 
                             <Contract 
@@ -45,7 +60,7 @@ export default class ContractList extends Component {
                             />
                         )}
                     </ul>
-                    <h6 className={styles.active}>Active</h6>
+                    <h5 className={styles.active}>Active</h5>
                     <ul>
                         {this.state.active.map(contract => 
                             <Contract 
