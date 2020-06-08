@@ -1,12 +1,22 @@
 import React, { Component } from 'react'
 import {withRouter} from 'react-router-dom'
 import moment from 'moment'
+import numeral from 'numeral'
 
 //import styles
 import styles from './Details.module.scss'
 
 //import icons
-import {MdArrowForward} from 'react-icons/md'
+import {MdArrowForward, MdReceipt, MdFileDownload, MdClose} from 'react-icons/md'
+
+
+//param: array
+//adds together item totals
+const getTotal = (items) => {
+    let total = 0
+    items.forEach((item) => total += item.total)
+    return total
+}
 
 function List(props) {
     return (
@@ -18,7 +28,7 @@ function List(props) {
 
 function Campaigns({campaigns}) {
     return (
-        <div className={styles.campaignGrid}>
+        <div className={styles.campaigns}>
             {campaigns.map((campaign, index) => 
                 <Card
                     product={campaign.product}
@@ -30,6 +40,125 @@ function Campaigns({campaigns}) {
                 />
             )}
         </div>
+    )
+}
+
+class Invoices extends Component {
+    constructor(props){
+        super(props)
+        this.state = {
+            sheet: true,
+            items: [
+                {
+                    product: "Mail List Costs",
+                    total: 8.91
+                },
+                {
+                    product: "Mail List Costs",
+                    total: 8.91
+                }
+            ],
+            invoiceDate: moment(new Date(2020, 5, 3)).format('MMMM Do YYYY')
+        }
+        this.closeSheet = this.closeSheet.bind(this)
+        this.openSheet = this.openSheet.bind(this)
+    }
+
+    openSheet(items, invoiceDate, e) {
+        this.setState({
+            sheet: true,
+            items,
+            invoiceDate
+        })
+    }
+
+    closeSheet() {
+        this.setState({sheet: false})
+    }
+
+    render() {
+
+        const invoices = this.props.invoices
+
+        return (
+            <>
+            <div className={styles.invoices}>
+                <ul>
+                    {/*
+                        if there are invoices, render a li for each
+                        else, give a message
+                    */}
+                    {invoices.length !== 0 ?
+                        invoices.map((invoice) => 
+                            <li
+                                key={invoice.date.toDateString()}
+                                onClick={(e) => this.openSheet(invoice.items, moment(invoice.date).format('MMMM Do YYYY'), e)}
+                            >
+                                <div className={styles.invoices__icon}>
+                                    <MdReceipt size='1.5rem' />
+                                </div>
+                                <div className={styles.invoices__row}>
+                                    <h3>{moment(invoice.date).format("MM/DD/YY")}</h3>
+                                    <p>{numeral(getTotal(invoice.items)).format("$0.00")}</p>
+                                </div>
+                            </li>
+                        ):
+                        <p className={styles.invoices__none}>No Paid Invoices</p>
+                    }
+                </ul>
+            </div>
+            {this.state.sheet ? 
+                <InvoiceSheet
+                    closeSheet={this.closeSheet}
+                    items={this.state.items}
+                    date={this.state.invoiceDate}
+                /> :
+                null}
+            </>
+        )
+    }
+    
+}
+
+function InvoiceSheet({closeSheet, items, date}) {
+    return(
+        <>
+        <div
+            className={styles.sheet__overlay}
+            onClick={closeSheet}
+        />
+         <div className={styles.sheet}>
+             <h1>{`Invoice on ${date}`}</h1>
+             <ul>
+                {items.map((item, index) => 
+                    <li key={index}>
+                        <p>{item.product}</p>
+                        <p>{`$${item.total}`}</p>
+                        <div>
+                            <button>
+                                <MdFileDownload size='1.5rem' />
+                            </button>
+                        </div>
+                    </li>
+                )}
+                {items.length > 1 ?
+                    <li className={styles.sheet__total}>
+                        <p>Total</p>
+                        <p>{`$${getTotal(items)}`}</p>
+                    </li> :
+                    null
+                }
+            </ul>
+            <div className={styles.sheet__close}>
+                <button
+                    onClick={closeSheet}
+                >
+                    <MdClose size='1.5rem' color='#fff'/>
+                </button>
+            </div>
+            
+         </div>
+         </>
     )
 }
 
@@ -59,7 +188,7 @@ function Card({product, start, end, artwork, campaignNumber}) {
 class Tabs extends Component {
     constructor(props){
         super(props)
-        this.state = {activeTab: 1}
+        this.state = {activeTab: 2}
         this.handleClick = this.handleClick.bind(this)
     }
 
@@ -91,7 +220,7 @@ class Tabs extends Component {
                 <div>
                     {this.state.activeTab === 1 ?
                         <Campaigns campaigns={this.props.campaigns} /> :
-                        <p>Paid Invoices</p>}
+                        <Invoices invoices={this.props.invoices}/>}
                 </div>
             </div>
         )
@@ -133,7 +262,7 @@ function Details (props) {
                 </List>
                 <List>
                     <h6>Quantity</h6>
-                    <h2>{contract.quantity}</h2>
+                    <h2>{numeral(contract.quantity).format("0,0")}</h2>
                 </List>
                 <List>
                     <h6>Status</h6>

@@ -61,6 +61,46 @@ export default {
                 artwork: "1003_magnet.png"
             }
         ],
-        invoices: []
+        invoices: [
+            {
+                date: new Date(2020, 5, 3),
+                items: [
+                    {
+                        product: "Mail List Costs",
+                        total: 8.91
+                    },
+                    {
+                        product: "Menus",
+                        total: 792.88
+                    }
+                ]
+            },
+            {
+                date: new Date(2020, 4, 27),
+                items: [
+                    {
+                        product: "Mail List Costs",
+                        total: 8.91
+                    },
+                    {
+                        product: "Menus",
+                        total: 792.88
+                    }
+                ]
+            },
+            {
+                date: new Date(2020, 4, 20),
+                items: [
+                    {
+                        product: "Mail List Costs",
+                        total: 8.91
+                    },
+                    {
+                        product: "Menus",
+                        total: 792.88
+                    }
+                ]
+            }
+        ]
     }
 }

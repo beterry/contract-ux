@@ -17,18 +17,24 @@
         border-radius: .25rem;
         margin: .5rem;
         padding: .5rem;
-        cursor: pointer;
+       
         p{
             color: white;
             margin-left: 2rem;
         }
     }
-    li:hover{
-        background: $p-700;
-    }
 }
 
-.active{
+.drawer__inactive{
+    background: none;
+    cursor: pointer;
+}
+
+.drawer__inactive:hover{
+    background: $p-700;
+}
+
+.drawer__active{
     background: $vivid;
 }
 

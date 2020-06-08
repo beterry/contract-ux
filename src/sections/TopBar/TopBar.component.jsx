@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import {Switch, Route} from 'react-router-dom'
 
 //import styles
 import styles from './TopBar.module.scss'
@@ -17,7 +18,15 @@ export default class TopBar extends Component {
                             size='1.5rem'
                         />
                     </button>
-                    <h1>Contracts</h1>
+                    
+                    <Switch>
+                        <Route path="/contracts/:contractId">
+                            <h1>Contract Details</h1>
+                        </Route>
+                        <Route path="/contracts">
+                            <h1>Contracts</h1>
+                        </Route>
+                    </Switch>
                 </div>
                 <div>
                     <button>
