@@ -47,18 +47,9 @@ class Invoices extends Component {
     constructor(props){
         super(props)
         this.state = {
-            sheet: true,
-            items: [
-                {
-                    product: "Mail List Costs",
-                    total: 8.91
-                },
-                {
-                    product: "Mail List Costs",
-                    total: 8.91
-                }
-            ],
-            invoiceDate: moment(new Date(2020, 5, 3)).format('MMMM Do YYYY')
+            sheet: false,
+            items: [],
+            invoiceDate: moment(new Date(2020, 5, 3)).format('MMMM Do, YYYY')
         }
         this.closeSheet = this.closeSheet.bind(this)
         this.openSheet = this.openSheet.bind(this)
@@ -82,52 +73,54 @@ class Invoices extends Component {
 
         return (
             <>
-            <div className={styles.invoices}>
-                <ul>
-                    {/*
-                        if there are invoices, render a li for each
-                        else, give a message
-                    */}
-                    {invoices.length !== 0 ?
-                        invoices.map((invoice) => 
-                            <li
-                                key={invoice.date.toDateString()}
-                                onClick={(e) => this.openSheet(invoice.items, moment(invoice.date).format('MMMM Do YYYY'), e)}
-                            >
-                                <div className={styles.invoices__icon}>
-                                    <MdReceipt size='1.5rem' />
-                                </div>
-                                <div className={styles.invoices__row}>
-                                    <h3>{moment(invoice.date).format("MM/DD/YY")}</h3>
-                                    <p>{numeral(getTotal(invoice.items)).format("$0.00")}</p>
-                                </div>
-                            </li>
-                        ):
-                        <p className={styles.invoices__none}>No Paid Invoices</p>
-                    }
-                </ul>
-            </div>
-            {this.state.sheet ? 
+                <div className={styles.invoices}>
+                    <ul>
+                        {/*
+                            if there are invoices, render a li for each
+                            else, give a message
+                        */}
+                        {invoices.length !== 0 ?
+                            invoices.map((invoice) => 
+                                <li
+                                    key={invoice.date.toDateString()}
+                                    onClick={(e) => this.openSheet(invoice.items, moment(invoice.date).format('MMMM Do, YYYY'), e)}
+                                >
+                                    <div className={styles.invoices__icon}>
+                                        <MdReceipt size='1.5rem' />
+                                    </div>
+                                    <div className={styles.invoices__row}>
+                                        <h3>{moment(invoice.date).format("MM/DD/YY")}</h3>
+                                        <p>{numeral(getTotal(invoice.items)).format("$0.00")}</p>
+                                    </div>
+                                </li>
+                            ):
+                            <p className={styles.invoices__none}>No Paid Invoices</p>
+                        }
+                    </ul>
+                </div>
                 <InvoiceSheet
+                    open={this.state.sheet}
                     closeSheet={this.closeSheet}
                     items={this.state.items}
                     date={this.state.invoiceDate}
-                /> :
-                null}
+                /> 
             </>
         )
     }
     
 }
 
-function InvoiceSheet({closeSheet, items, date}) {
+function InvoiceSheet({closeSheet, items, date, open}) {
     return(
         <>
-        <div
-            className={styles.sheet__overlay}
-            onClick={closeSheet}
-        />
-         <div className={styles.sheet}>
+        {open ? 
+            <div
+                className={styles.sheet__overlay}
+                onClick={closeSheet}
+            /> :
+            null
+        }
+         <div className={`${styles.sheet} ${open ? styles.sheet__active : null}`}>
              <h1>{`Invoice on ${date}`}</h1>
              <ul>
                 {items.map((item, index) => 
@@ -136,7 +129,7 @@ function InvoiceSheet({closeSheet, items, date}) {
                         <p>{`$${item.total}`}</p>
                         <div>
                             <button>
-                                <MdFileDownload size='1.5rem' />
+                                <MdFileDownload size='1.5rem' color='#FF8C00'/>
                             </button>
                         </div>
                     </li>

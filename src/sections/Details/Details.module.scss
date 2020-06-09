@@ -147,13 +147,15 @@
 .sheet{
     background: white;
     position: absolute;
-    right: 0;
+    z-index: 1;
+    border-radius: .25rem 0 0 .25rem;
+    transition: all .2s;
+    width: 32rem;
+    box-sizing: border-box;
+    right: -32rem;
     top: 0;
     bottom: 0;
-    width: 32rem;
-    z-index: 1;
-    padding: 1rem;
-    border-radius: .25rem 0 0 .25rem;
+    padding: 2rem;
     ul{
         padding-inline-start: 0;
         margin-block-start: 0;
@@ -191,10 +193,18 @@
     p{
         width: 40%;
     }
+    p:nth-child(2){
+        text-align: right;
+    }
     h1{
         margin-bottom: 2rem;
     }
-    
+}
+
+.sheet__active{
+    right: 0;
+    top: 0;
+    bottom: 0;
 }
 
 .sheet__overlay{
