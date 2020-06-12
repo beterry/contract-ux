@@ -1,8 +1,24 @@
+// primaries
 $primary: #0B2A42;
 $p-800: #163E5A;
 $p-700: #255070;
 $p-300: #779CBE;
+
+// secondaries
 $secondary: #FF8C00;
 $vivid: #2B94E0;
+$green: #00D050;
 
+// grays
+$gray-60: rgba(0,0,0,.6);
+$gray-10: rgba(0,0,0,.1);
+$gray-5: rgba(0,0,0,.05);
+
+// hovers
 $secondary-hover: rgba(255,140,0,.1);
+$s-hover: rgba(255,140,0,.1);
+$v-hover: rgba(43, 148, 224, .1);
+
+// backgrounds
+$s-bk: rgba(255, 140, 0, .25);
+$green-bk: rgba(0, 208, 80, .25);

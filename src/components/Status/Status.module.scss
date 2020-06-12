@@ -1,0 +1,29 @@
+@import "../../styles/colors.scss";
+
+@mixin status {
+    align-items: center;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    height: 2rem;
+    justify-content: center;
+    padding: 0 .75rem;
+}
+
+.status__ra{
+    @include status;
+    background: $s-bk;
+    color: $secondary;
+}
+
+.status__active{
+    @include status;
+    background: $green-bk;
+    color: $green;
+}
+
+.status__completed{
+    @include status;
+    background: $gray-10;
+    color: $gray-60;
+}
