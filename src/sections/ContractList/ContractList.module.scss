@@ -1,40 +1,108 @@
 @import "../../styles/colors.scss";
 
 .contractList{
+    padding: 2rem;
     ul{
         padding-inline-start: 0;
         margin-block-start: 0;
         margin-block-end: 0;
+        margin-bottom: 3rem;
     }
     h5{
         padding: 1rem;
     }
 }
 
-.requiresAction{
-    color: $secondary;
-}
-
-.active{
-    margin-top: 1rem;
-    color: $p-300;
-    border-top: 1px solid rgba(0, 0, 0, .1)
-}
-
-.contract{
+@mixin row{
     display: flex;
     justify-content: space-between;
     list-style-type: none;
-    padding: .8125rem 1rem;
-    h2{
-        margin-bottom: .3125rem;
-    }
-    p{
-        color: rgba(0,0,0,.6)
+    
+    border-bottom: 1px solid $gray-10;
+}
+
+.contract{
+    @include row;
+    button{
+        margin-left: .5rem;
     }
 }
 
+.header{
+    @include row;
+}
+
 .contract:hover{
-    background: rgba(0,0,0,.05);
+    background: #fafafa;
+    cursor: pointer;
+}
+
+.left{
+    display: flex;
+    flex-wrap: wrap;
+    width: 70%;
+    align-items: center;
+    h3{
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+    p{
+        color: rgba(0,0,0,.6);
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+}
+
+.right{
+    width: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+ @mixin col{
+    display: flex;
+    align-items: center;
+    padding: .8125rem 1rem;
+    min-height: 3rem;
+}
+
+.col__name{
+    @include col;
+    width: 40%;
+}
+
+.col__starting{
+    @include col;
+    width: 20%;
+}
+
+.col__business{
+    @include col;
+    width: 25%;
+}
+
+.col__quantity{
+    @include col;
+    width: 15%;
+    justify-content: flex-end;
+}
+
+.sortArrow{
+    margin: 0 .5rem;
+    transition: transform .4s;
+    color: $vivid;
+    flex-shrink: 0;
+}
+
+.th{
+    background: none;
+    border: none;
+}
+
+.th:hover{
+    background: #fafafa;
     cursor: pointer;
 }

@@ -6,7 +6,7 @@
 export default {
     1001: {
         id: 1001,
-        name: "Box Toppers",
+        name: "Print Box Toppers",
         status: 0,
         business: "Five Star Pizza - Kissimmee",
         quantity: 5000,
@@ -117,5 +117,16 @@ export default {
                 ]
             }
         ]
+    },
+    1004: {
+        id: 1004,
+        name: "Print Menus",
+        status: 2,
+        business: "Five Star Pizza - Belleview",
+        quantity: 5000,
+        starting: new Date(2019, 4, 13),
+        ending: new Date(2020, 4, 1),
+        campaigns: [],
+        invoices: []
     }
 }
