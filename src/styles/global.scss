@@ -83,7 +83,7 @@ button{
 .button__contained{
     min-width: 4rem;
     color: white;
-    background: $secondary;
+    background: $vivid;
     height: 2.25rem;
     display: flex;
     align-items: center;
@@ -91,6 +91,14 @@ button{
     border: none;
     border-radius: .25rem;
     padding: 0 1rem;
+    box-shadow: 0 .1875rem .1875rem $gray-20;
+    transition: all .2s;
+}
+
+.button__contained:hover{
+    background: $v-hover-btn;
+    box-shadow: 0 .3rem .3rem $gray-20;
+    cursor: pointer;
 }
 
 .button__text{
@@ -110,6 +118,25 @@ button{
 .button__text:hover{
     background: $v-hover;
     cursor: pointer;
+}
+
+.button__text-icon{
+    min-width: 4rem;
+    color: $vivid;
+    background: none;
+    height: 2.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: .25rem;
+    padding: 0 .5rem 0 0;
+    flex-shrink: 0;
+}
+
+.button__text-icon:hover{
+    cursor: pointer;
+    background: $v-hover;
 }
 
 .button__icon{

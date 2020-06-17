@@ -80,3 +80,10 @@
 .cell__product{
     padding: 0 1.5rem;
 }
+
+.actions{
+    max-width: 25rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1rem;
+}

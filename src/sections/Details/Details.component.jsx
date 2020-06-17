@@ -20,6 +20,17 @@ const getTotal = (items) => {
     return numeral(total).format("$0.00")
 }
 
+function ActionButtons({status}) {
+    return(
+        <section className={styles.actions}>
+            {status === 1 ? <button className='button__contained'>Current Cycle</button> : null}
+            {status === 0 ? <button className='button__contained'>Approve Contract</button> : null}
+            {status === 2 ? <button className='button__contained'>Renew Contract</button> : null}
+            <button className='button__text'>Download</button>
+        </section>
+    )
+}
+
 function Stat({title, value}) {
     return(
         <div className={styles.stat}>
@@ -211,6 +222,7 @@ function Details(props) {
                 <h1>{contract.name}</h1>
                 <Status status={contract.status} />
             </section>
+            <ActionButtons status={contract.status}/>
             <Stats 
                 business={contract.business}
                 starting={moment(contract.starting).format("MMMM Do, YYYY")}
