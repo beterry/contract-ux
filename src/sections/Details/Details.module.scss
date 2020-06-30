@@ -13,49 +13,115 @@
 }
 
 .stat__container{
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 1rem;
 }
 
 .stat{
-    margin: .75rem 5rem .75rem 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 1px solid $gray-10;
+    border-radius: .25rem;
+    padding: 1rem;
     h6{
         color: $gray-60;
     }
+    h3{
+        margin: .25rem 0;
+    }
 }
 
-.table__campaign{
-    h2{
+.stat__icon{
+    color: $vivid;
+}
+
+.tabs{
+    nav{
+        display: flex;
         margin-bottom: 1rem;
     }
-    col:nth-child(1){
-        width: 5%;
-    }
-    col:nth-child(2){
-       width: 25%;
-    }
-    col:nth-child(3){
-        width: 12%;
-    }
-    col:nth-child(4){
-        width: 12%;
-    }
-    col:nth-child(5){
-        width: 10%;
-    }
-    col:nth-child(6){
-        width: 15%;
-    }
-    td{
-        button{
-            color: $gray-60;
-        }
-    }
+}
+
+@mixin tab{
+    min-width: 9rem;
+    background: none;
+    height: 2.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: .25rem .25rem 0 0;
+    padding: 0 .5rem;
+    flex-shrink: 0;
+}
+
+.tab__active{
+    @include tab;
+    color: $vivid;
+    border-bottom: 2px solid $vivid;
+}
+
+.tab__inactive{
+    @include tab;
+    color: $gray-60;
+}
+
+.tab__inactive:hover{
+    background: $gray-10;
+    cursor: pointer;
+}
+
+.row{
+    display: flex;
+    align-items: center;
+    min-height: 3rem;
+    border-bottom: 1px solid $gray-10;
+    position: relative;
+}
+
+@mixin col{
+    padding: .5rem 1rem;
+}
+
+.col__number{
+    @include col;
+    flex: 0 0 2rem;
+}
+
+.col__product{
+    @include col;
+    width: 20rem;
+    min-width: 15rem;
+    flex: 0 1 auto;
+}
+
+.col__start{
+    @include col;
+    flex: 1 1 0;
+}
+
+.col__paid{
+    @include col;
+    flex: 0 0 13rem;
+}
+
+.col__amount{
+    @include col;
+    flex: 1 1 auto;
+}
+
+.col__item{
+    padding: .5rem 1rem .5rem 2rem;
+    flex: 0 0 13rem;
 }
 
 .col__buttons{
+    @include col;
+    position: absolute;
+    right: 0;
     display: flex;
-    align-items: center;
     justify-content: flex-end;
 }
 

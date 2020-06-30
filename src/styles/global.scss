@@ -17,6 +17,17 @@ a{
     color: inherit;
 }
 
+ul{
+    padding-inline-start: 0;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    margin-bottom: 3rem;
+}
+
+li{
+    list-style-type: none;
+}
+
 p{
     font-family: 'Lato', sans-serif;
     font-size: .875rem;

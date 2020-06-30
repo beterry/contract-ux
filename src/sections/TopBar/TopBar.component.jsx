@@ -48,7 +48,7 @@ export default function TopBar() {
                     </Route>
                 </Switch>
             </div>
-            {/* <div>
+            <div>
                 <Switch>
                     <Route path="/contracts/:contractId">
                         <button className='button__icon'>
@@ -60,7 +60,7 @@ export default function TopBar() {
                     </Route>
                 </Switch>
                 
-            </div> */}
+            </div>
         </nav>
     )
 }

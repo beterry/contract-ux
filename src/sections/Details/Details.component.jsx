@@ -7,7 +7,16 @@ import numeral from 'numeral'
 import styles from './Details.module.scss'
 
 //import icons
-import {MdImage, MdMap, MdExpandMore, MdFileDownload} from 'react-icons/md'
+import {
+    MdImage,
+    MdMap,
+    MdExpandMore,
+    MdFileDownload,
+    MdStore,
+    MdEvent,
+    MdToday,
+    MdLocalShipping
+} from 'react-icons/md'
 
 //components
 import Status from '../../components/Status/Status.component'
@@ -20,22 +29,23 @@ const getTotal = (items) => {
     return numeral(total).format("$0.00")
 }
 
-function ActionButtons({status}) {
-    return(
-        <section className={styles.actions}>
-            {status === 1 ? <button className='button__contained'>Current Cycle</button> : null}
-            {status === 0 ? <button className='button__contained'>Approve Contract</button> : null}
-            {status === 2 ? <button className='button__contained'>Renew Contract</button> : null}
-            <button className='button__text'>Download</button>
-        </section>
-    )
-}
+// function ActionButtons({status}) {
+//     return(
+//         <section className={styles.actions}>
+//             {status === 1 ? <button className='button__contained'>Current Cycle</button> : null}
+//             {status === 0 ? <button className='button__contained'>Approve Contract</button> : null}
+//             {status === 2 ? <button className='button__contained'>Renew Contract</button> : null}
+//             <button className='button__text'>Download</button>
+//         </section>
+//     )
+// }
 
-function Stat({title, value}) {
+function Stat({title, value, children}) {
     return(
         <div className={styles.stat}>
-            <h6>{title}</h6>
+            <div className={styles.stat__icon}>{children}</div>
             <h3>{value}</h3>
+            <h6>{title}</h6>
         </div>
     )
 }
@@ -43,110 +53,109 @@ function Stat({title, value}) {
 function Stats({business, starting, ending, quantity}) {
     return(
         <section className={styles.stat__container}>
-            <Stat title='business' value={business} />
-            <Stat title='starting' value={starting} />
-            <Stat title='ending' value={ending} />
-            <Stat title='quantity' value={quantity} />
+            <Stat title='business' value={business}><MdStore size='1.5rem'/></Stat>
+            <Stat title='starting' value={starting}><MdToday size='1.5rem'/></Stat>
+            <Stat title='ending' value={ending}><MdEvent size='1.5rem'/></Stat>
+            <Stat title='quantity' value={quantity}><MdLocalShipping size='1.5rem'/></Stat>
         </section>
     )
 }
 
-function CampaignRow({number, product, start, end, weeks, status}) {
-    let statusClass = ''
-    let statusString = ''
-    switch(status) {
-        case 0:
-            statusString = 'Pending Artwork'
-            statusClass = 'text__orange'
-            break
-        case 1:
-            statusString = 'Active'
-            statusClass = 'text__green'
-            break
-        default:
-            statusString = 'Completed'
-            statusClass = 'text__gray'
-            break
+class DetailTabs extends Component {
+    constructor(props){
+        super(props)
+        this.state = {openTab: 2}
+        this.handleClick = this.handleClick.bind(this)
     }
+
+    handleClick(newTab){
+        if (newTab === this.state.openTab){
+            return
+        }
+        this.setState({openTab: newTab})
+    }
+
+
+    render() {
+        const tabKey = {
+            1: <CampaignList campaigns={this.props.campaigns} />,
+            2: <InvoiceTable invoices={this.props.invoices} />
+        }
+        return(
+            <section className={styles.tabs}>
+                <nav>
+                    <button
+                        className={this.state.openTab === 1 ? styles.tab__active : styles.tab__inactive}
+                        onClick={() => this.handleClick(1)}
+                    >
+                        Campaigns
+                    </button>
+                    <button
+                        className={this.state.openTab === 2 ? styles.tab__active : styles.tab__inactive}
+                        onClick={() => this.handleClick(2)}
+                    >
+                        Paid Invoices
+                    </button>
+                </nav>
+                {tabKey[this.state.openTab]}
+            </section>
+        )
+    }
+}
+
+function CampaignList({campaigns}) {
     return(
-        <tr>
-            <td>{number}</td>
-            <td>{product}</td>
-            <td>{start}</td>
-            <td>{end}</td>
-            <td>{weeks}</td>
-            <td className={statusClass}>
-                {statusString}
-            </td>
-            <td className={styles.col__buttons}>
-                {status !== 0 ? <button className='button__icon'><MdImage size='1.5rem'/></button> : null}
-                <button className='button__icon'><MdMap size='1.5rem'/></button>
-            </td>
-        </tr>
+        <ul>
+            {/* header row */}
+            <li className={styles.row}>
+                <h6 className={styles.col__number}>#</h6>
+                <h6 className={styles.col__product}>product</h6>
+                <h6 className={styles.col__start}>starting</h6>
+            </li>
+            {campaigns.map((campaign, index) =>
+                <CampaignRow
+                    number={index + 1}
+                    product={campaign.product}
+                    start={moment(campaign.start).format("MM/DD/YY")}
+                    key={`campaign ${index + 1}`}
+                />
+            )}
+        </ul>
     )
 }
 
-function CampaignTable({campaigns}) {
+function CampaignRow({number, product, start}) {
     return(
-        <section className={styles.table__campaign}>
-            <h2>Campaigns</h2>
-            <table>
-                <colgroup>
-                    <col />
-                    <col />
-                    <col />
-                    <col />
-                    <col />
-                    <col />
-                    <col />
-                </colgroup>
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Product</th>
-                        <th>Start</th>
-                        <th>End</th>
-                        <th>Weeks</th>
-                        <th>Status</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {campaigns.map((campaign, index) => 
-                        <CampaignRow
-                            number={index + 1}
-                            product={campaign.product}
-                            start={moment(campaign.start).format('MM/DD/YY')}
-                            end={moment(campaign.end).format('MM/DD/YY')}
-                            weeks={campaign.weeks}
-                            status={campaign.status}
-                            key={`campaign__${index}`}
-                        />
-                    )}
-                </tbody>
-            </table>
-        </section>
+        <li className={styles.row}>
+            <p className={styles.col__number}>{number}</p>
+            <h3 className={styles.col__product}>{product}</h3>
+            <p className={styles.col__start}>{start}</p>
+            <div className={styles.col__buttons}>
+                <button className='button__icon'><MdMap size='1.5rem'/></button>
+                <button className='button__icon'><MdImage size='1.5rem'/></button>
+            </div>
+        </li>
     )
 }
 
 function ItemRows({items}) {
     return(
         <>
-        {items.map((item, index) => 
-            <tr
+        {items.map((item, index) =>
+            <li
+                className={`${styles.row} text__gray`}
                 key={index}
-                className='text__gray'
             >
-                <td className={styles.cell__product}>{item.product}</td>
-                <td>{numeral(item.total).format("$0.00")}</td>
-                <td className={styles.col__buttons}>
+                <p className={styles.col__item}>{item.product}</p>
+                <p className={styles.col__amount}>{numeral(item.total).format("$0.00")}</p>
+                <div className={styles.col__buttons}>
                     <button
                         className='button__icon'
                     >
                         <MdFileDownload size='1.5rem'/>
                     </button>
-                </td>
-            </tr>
+                </div>
+            </li>
         )}
         </>
     )
@@ -164,18 +173,18 @@ class InvoiceRow extends Component {
     render() {
         return(
             <>
-                <tr>
-                    <td>{this.props.date}</td>
-                    <td>{getTotal(this.props.items)}</td>
-                    <td className={styles.col__buttons}>
+                <li className={styles.row}>
+                    <p className={styles.col__paid}>{this.props.date}</p>
+                    <h3 className={styles.col__amount}>{getTotal(this.props.items)}</h3>
+                    <div className={styles.col__buttons}>
                         <button
                             className={`button__icon ${this.state.open ? 'flipped' : null}`}
                             onClick={this.handleClick}
                         >
                             <MdExpandMore size='1.5rem'/>
                         </button>
-                    </td>
-                </tr>
+                    </div>
+                </li>
                 {this.state.open ? <ItemRows items={this.props.items}/> : null}
             </>
         )
@@ -184,32 +193,20 @@ class InvoiceRow extends Component {
 
 function InvoiceTable({invoices}) {
     return(
-        <section className={styles.table__invoices}>
-            <h2>Recent Invoices</h2>
-            <table>
-                <colgroup>
-                    <col />
-                    <col />
-                    <col />
-                </colgroup>
-                <thead>
-                    <tr>
-                        <th>Paid</th>
-                        <th>Amount</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {invoices.map((invoice, index) => 
-                        <InvoiceRow
-                            date={moment(invoice.date).format("MM/DD/YY")}
-                            items={invoice.items}
-                            key={`invoice__${index}`}
-                        />
-                    )}
-                </tbody>
-            </table>
-        </section>
+        <ul>
+            {/* header row */}
+            <li className={styles.row}>
+                <h6 className={styles.col__paid}>paid</h6>
+                <h6 className={styles.col__amount}>amount</h6>
+            </li>
+            {invoices.map((invoice, index) => 
+                <InvoiceRow
+                    date={moment(invoice.date).format("MM/DD/YY")}
+                    items={invoice.items}
+                    key={`invoice__${index}`}
+                />
+            )}
+        </ul>
     )
 }
 
@@ -222,15 +219,13 @@ function Details(props) {
                 <h1>{contract.name}</h1>
                 <Status status={contract.status} />
             </section>
-            <ActionButtons status={contract.status}/>
             <Stats 
                 business={contract.business}
                 starting={moment(contract.starting).format("MMMM Do, YYYY")}
                 ending={moment(contract.ending).format("MMMM Do, YYYY")}
                 quantity={numeral(contract.quantity).format("0,0")}
             />
-            <CampaignTable campaigns={contract.campaigns} />
-            <InvoiceTable invoices={contract.invoices}/>
+            <DetailTabs campaigns={contract.campaigns} invoices={contract.invoices}/>
         </div>
     )
 }
