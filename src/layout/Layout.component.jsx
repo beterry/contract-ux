@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-import {Link} from 'react-router-dom'
+import {Link, Switch, Route, useHistory} from 'react-router-dom'
 
 //import styles
 import styles from './Layout.module.scss'
 
 //import images
 import logo from '../images/logo.svg'
+import fav from '../images/favicon.svg'
 
 //import icons
 import {
@@ -15,17 +16,17 @@ import {
     MdPublish,
     MdPeople,
     MdCreditCard,
-    MdPowerSettingsNew
+    MdPowerSettingsNew,
+    MdMenu,
+    MdFileDownload,
+    MdArrowBack
 } from 'react-icons/md'
 
-//import sections
-import TopBar from '../sections/TopBar/TopBar.component'
-
-function NavDrawer() {
+function NavDrawer({isOpen}) {
     return (
-        <nav className={styles.navDrawer}>
+        <nav className={isOpen ? styles.navDrawer__open : styles.navDrawer__closed}>
             <div className={styles.logo}>
-                <img src={logo} alt='Mail Shark' />
+                <img src={isOpen ? logo : fav} alt='Mail Shark' />
             </div>
             <ul className={styles.mainLinks}>
                 <li className={styles.drawer__inactive}>
@@ -65,14 +66,86 @@ function NavDrawer() {
     )
 }
 
+function TopBar({toggleMenu}) {
+    let history = useHistory()
+    function handleClick() {
+        history.push('/contracts')
+    }
+    return (
+        <nav className={styles.topBar}>
+            <div>
+                {/* Back Button */}
+                <Switch>
+                    <Route path="/contracts/:contractId">
+                        <button
+                            className='button__icon'
+                            onClick={handleClick}
+                        >
+                            <MdArrowBack 
+                                color='#fff'
+                                size='1.5rem'
+                            />
+                        </button>
+                    </Route>
+                    <Route path="/contracts">
+                        <button
+                            className='button__icon'
+                            onClick={toggleMenu}
+                        >
+                            <MdMenu 
+                                color='#fff'
+                                size='1.5rem'
+                            />
+                        </button>
+                    </Route>
+                </Switch>
+
+                {/* Title */}
+                <Switch>
+                    <Route path="/contracts/:contractId">
+                        <h5>Contract Details</h5>
+                    </Route>
+                    <Route path="/contracts">
+                        <h5>Contracts</h5>
+                    </Route>
+                </Switch>
+            </div>
+            <div>
+                <Switch>
+                    <Route path="/contracts/:contractId">
+                        <button className='button__icon'>
+                            <MdFileDownload 
+                                color='#fff'
+                                size='1.5rem'
+                            />
+                        </button>
+                    </Route>
+                </Switch>
+                
+            </div>
+        </nav>
+    )
+}
+
 export default class Layout extends Component {
+    constructor(props){
+        super(props)
+        this.state = {drawerOpen: true}
+        this.toggleMenu = this.toggleMenu.bind(this)
+    }
+
+    toggleMenu() {
+        this.setState(state => ({
+            drawerOpen: !state.drawerOpen
+        }))
+    }
+
     render() {
         return (
             <div className={styles.layout}>
-                <NavDrawer />
-                <div className={styles.underlay} />
-                <div className={styles.right}>
-                    <TopBar />
+                <NavDrawer isOpen={this.state.drawerOpen}/>
+                <div className={this.state.drawerOpen ? styles.right__open : styles.right__closed}>
+                    <TopBar toggleMenu={this.toggleMenu}/>
                     <main>
                         {this.props.children}
                     </main>

@@ -7,10 +7,12 @@
     overflow: hidden;
 }
 
-.right{
-    flex-grow: 1;
+@mixin right{
+    width: 100vw;
     display: flex;
     flex-direction: column;
+    transition: .25s;
+    transition-timing-function: ease-out;
     main{
         display: flex;
         flex-direction: column;
@@ -18,21 +20,27 @@
     }
 }
 
-.underlay{
-    flex-shrink: 0;
-    width: 16rem;
+.right__open{
+    @include right;
+    padding-left: 16rem;
 }
 
-.navDrawer{
+.right__closed{
+    @include right;
+    padding-left: 3.5rem;
+}
+
+@mixin navDrawer{
     display: flex;
     flex-direction: column;
     width: 16rem;
     position: fixed;
     top: 0;
-    left: 0;
     bottom: 0;
     background: $p-800;
     box-shadow: 4px 0px 4px rgba(0,0,0,.25);
+    transition: .25s;
+    transition-timing-function: ease-out;
     ul{
         padding-inline-start: 0;
         margin-block-start: 0;
@@ -44,12 +52,25 @@
         border-radius: .25rem;
         margin: .5rem;
         padding: .5rem;
-       
+        overflow: hidden;
         p{
             color: white;
             margin-left: 2rem;
         }
+        *{
+            flex-shrink: 0;
+        }
     }
+}
+
+.navDrawer__open{
+    @include navDrawer;
+}
+
+.navDrawer__closed{
+    @include navDrawer;
+    width: 3.5rem;
+    overflow: hidden;
 }
 
 .drawer__inactive{
@@ -78,4 +99,25 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+}
+
+.topBar{
+    background-color: $primary;
+    display: flex;
+    justify-content: space-between;
+    box-shadow: 0px 2px 2px rgba(0,0,0,.25);
+    button{
+        margin: .5rem;
+
+    }
+    button:hover{
+        background: $p-800;
+    }
+    div{
+        display: flex;
+        align-items: center;
+    }
+    h5{
+        color: white;
+    }
 }
