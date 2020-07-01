@@ -15,7 +15,6 @@
 
 @mixin row{
     display: flex;
-    justify-content: space-between;
     list-style-type: none;
     
     border-bottom: 1px solid $gray-10;
@@ -37,56 +36,52 @@
     cursor: pointer;
 }
 
-.left{
+ @mixin col{
     display: flex;
-    flex-wrap: wrap;
-    width: 70%;
     align-items: center;
+    padding: .8125rem 1rem;
+    min-height: 3rem;
+    overflow: hidden;
+    
     h3{
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
     }
     p{
-        color: rgba(0,0,0,.6);
+        color: $gray-60;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
     }
 }
 
-.right{
-    width: 30%;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-}
-
- @mixin col{
-    display: flex;
-    align-items: center;
-    padding: .8125rem 1rem;
-    min-height: 3rem;
-}
-
 .col__name{
     @include col;
-    width: 40%;
+    flex: 2 2 0;
 }
 
 .col__starting{
     @include col;
-    width: 20%;
+    flex: 1 1 0;
 }
 
 .col__business{
     @include col;
-    width: 25%;
+    flex: 1 1 0;
 }
 
 .col__quantity{
     @include col;
-    width: 15%;
+    flex: 1 2 0;
+    justify-content: flex-end;
+}
+
+.col__status{
+    flex: 2 2 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
     justify-content: flex-end;
 }
 

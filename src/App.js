@@ -66,12 +66,21 @@ class App extends Component {
 
   render(){
     let sortedContracts = this.state.allContracts
+    
     //filter out completed
     if (!this.state.showCompleted) {
         sortedContracts = sortedContracts.filter((contract) => contract.status !== 2)
     }
     // function to sort array based on state
     sortedContracts = sortContracts(this.state.sort, sortedContracts)
+
+    //calculate # of completed contracts to pass to list
+    let numberCompleted = 0
+    this.state.allContracts.forEach((contract) => {
+      if(contract.status === 2){
+        numberCompleted++
+      }
+    })
 
     return (
       <Router>
@@ -87,6 +96,7 @@ class App extends Component {
                 toggleCompleted={this.toggleCompleted}
                 sort={this.state.sort}
                 showCompleted={this.state.showCompleted}
+                numberCompleted={numberCompleted}
               />
             </Route>
           </Switch>

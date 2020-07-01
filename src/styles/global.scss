@@ -88,6 +88,7 @@ button{
     text-transform: uppercase;
     letter-spacing: 0.7px;
     transition: transform .4s;
+    flex-shrink: 0;
 }
 
 .button__contained{
