@@ -7,7 +7,7 @@ export default function Status({status}) {
     let statusString = ''
     switch(status) {
         case 0:
-            statusString = 'Requires Action'
+            statusString = 'Pending Approval'
             statusClass = styles.status__ra
             break
         case 1:

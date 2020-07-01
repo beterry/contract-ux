@@ -29,16 +29,15 @@ const getTotal = (items) => {
     return numeral(total).format("$0.00")
 }
 
-// function ActionButtons({status}) {
-//     return(
-//         <section className={styles.actions}>
-//             {status === 1 ? <button className='button__contained'>Current Cycle</button> : null}
-//             {status === 0 ? <button className='button__contained'>Approve Contract</button> : null}
-//             {status === 2 ? <button className='button__contained'>Renew Contract</button> : null}
-//             <button className='button__text'>Download</button>
-//         </section>
-//     )
-// }
+function ActionButton({status}) {
+    return(
+        <div className={styles.action}>
+            {status === 1 ? <button className='button__contained'>Current Cycle</button> : null}
+            {status === 0 ? <button className='button__contained'>Approve Contract</button> : null}
+            {status === 2 ? <button className='button__contained'>Renew Contract</button> : null}
+        </div>
+    )
+}
 
 function Stat({title, value, children}) {
     return(
@@ -54,8 +53,8 @@ function Stats({business, starting, ending, quantity}) {
     return(
         <section className={styles.stat__container}>
             <Stat title='business' value={business}><MdStore size='1.5rem'/></Stat>
-            <Stat title='starting' value={starting}><MdToday size='1.5rem'/></Stat>
-            <Stat title='ending' value={ending}><MdEvent size='1.5rem'/></Stat>
+            <Stat title='invoicing starts' value={starting}><MdToday size='1.5rem'/></Stat>
+            <Stat title='invoicing ends' value={ending}><MdEvent size='1.5rem'/></Stat>
             <Stat title='quantity' value={quantity}><MdLocalShipping size='1.5rem'/></Stat>
         </section>
     )
@@ -64,7 +63,7 @@ function Stats({business, starting, ending, quantity}) {
 class DetailTabs extends Component {
     constructor(props){
         super(props)
-        this.state = {openTab: 2}
+        this.state = {openTab: 1}
         this.handleClick = this.handleClick.bind(this)
     }
 
@@ -77,9 +76,14 @@ class DetailTabs extends Component {
 
 
     render() {
-        const tabKey = {
-            1: <CampaignList campaigns={this.props.campaigns} />,
-            2: <InvoiceTable invoices={this.props.invoices} />
+        let renderTab
+        if (this.state.openTab === 1){
+            renderTab = <CampaignList campaigns={this.props.campaigns} />
+        } else{
+            renderTab = <InvoiceTable invoices={this.props.invoices} />
+            if(this.props.invoices.length === 0){
+                renderTab = <p className={styles.noInvoices}>{`Invoices start ${this.props.starting}`}</p>
+            }
         }
         return(
             <section className={styles.tabs}>
@@ -97,7 +101,7 @@ class DetailTabs extends Component {
                         Paid Invoices
                     </button>
                 </nav>
-                {tabKey[this.state.openTab]}
+                {renderTab}
             </section>
         )
     }
@@ -193,20 +197,26 @@ class InvoiceRow extends Component {
 
 function InvoiceTable({invoices}) {
     return(
-        <ul>
-            {/* header row */}
-            <li className={styles.row}>
-                <h6 className={styles.col__paid}>paid</h6>
-                <h6 className={styles.col__amount}>amount</h6>
-            </li>
-            {invoices.map((invoice, index) => 
-                <InvoiceRow
-                    date={moment(invoice.date).format("MM/DD/YY")}
-                    items={invoice.items}
-                    key={`invoice__${index}`}
-                />
-            )}
-        </ul>
+        <>
+            <ul className={styles.list__invoices}>
+                {/* header row */}
+                <li className={styles.row}>
+                    <h6 className={styles.col__paid}>paid</h6>
+                    <h6 className={styles.col__amount}>amount</h6>
+                </li>
+                {invoices.map((invoice, index) => 
+                    <InvoiceRow
+                        date={moment(invoice.date).format("MM/DD/YY")}
+                        items={invoice.items}
+                        key={`invoice__${index}`}
+                    />
+                )}
+            </ul>
+            {invoices.length >= 3 ?
+                <button className='button__text'>See All Invoices</button> :
+                null
+            }
+        </>
     )
 }
 
@@ -215,9 +225,12 @@ function Details(props) {
     const contract = props.contracts[props.match.params.contractId]
     return(
         <div className={styles.details}>
-            <section className={styles.details__title}>
-                <h1>{contract.name}</h1>
-                <Status status={contract.status} />
+            <section className={styles.container__title}>
+                <div className={styles.title}>
+                    <h1>{contract.name}</h1>
+                    <Status status={contract.status} />
+                </div>
+                <ActionButton status={contract.status} />
             </section>
             <Stats 
                 business={contract.business}
@@ -225,7 +238,11 @@ function Details(props) {
                 ending={moment(contract.ending).format("MMMM Do, YYYY")}
                 quantity={numeral(contract.quantity).format("0,0")}
             />
-            <DetailTabs campaigns={contract.campaigns} invoices={contract.invoices}/>
+            <DetailTabs
+                campaigns={contract.campaigns}
+                invoices={contract.invoices}
+                starting={moment(contract.starting).format("MM/DD/YY")}
+            />
         </div>
     )
 }

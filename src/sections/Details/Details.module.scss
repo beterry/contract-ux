@@ -4,7 +4,13 @@
     padding: 2rem;
 }
 
-.details__title{
+.container__title{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title{
     align-items: center;
     display: flex;
     h1{
@@ -40,7 +46,7 @@
 .tabs{
     nav{
         display: flex;
-        margin-bottom: 1rem;
+        margin-bottom: 2rem;
     }
 }
 
@@ -71,6 +77,12 @@
 .tab__inactive:hover{
     background: $gray-10;
     cursor: pointer;
+}
+
+.list__invoices{
+    li:last-child{
+        margin-bottom: 2rem;
+    }
 }
 
 .row{
@@ -147,9 +159,14 @@
     padding: 0 1.5rem;
 }
 
-.actions{
-    max-width: 25rem;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 1rem;
+.action{
+    
+}
+
+.noInvoices{
+    height: 2.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $gray-60;
 }
