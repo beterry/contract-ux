@@ -80,7 +80,7 @@ class DetailTabs extends Component {
         if (this.state.openTab === 1){
             renderTab = <CampaignList campaigns={this.props.campaigns} />
         } else{
-            renderTab = <InvoiceTable invoices={this.props.invoices} />
+            renderTab = <InvoiceList invoices={this.props.invoices} />
             if(this.props.invoices.length === 0){
                 renderTab = <p className={styles.noInvoices}>{`Invoices start ${this.props.starting}`}</p>
             }
@@ -115,6 +115,7 @@ function CampaignList({campaigns}) {
                 <h6 className={styles.col__number}>#</h6>
                 <h6 className={styles.col__product}>product</h6>
                 <h6 className={styles.col__start}>starting</h6>
+                <div className={styles.col__buttons} />
             </li>
             {campaigns.map((campaign, index) =>
                 <CampaignRow
@@ -150,8 +151,8 @@ function ItemRows({items}) {
                 className={`${styles.row} text__gray`}
                 key={index}
             >
-                <p className={styles.col__item}>{item.product}</p>
                 <p className={styles.col__amount}>{numeral(item.total).format("$0.00")}</p>
+                <p className={styles.col__paid}>{item.product}</p>
                 <div className={styles.col__buttons}>
                     <button
                         className='button__icon'
@@ -178,8 +179,9 @@ class InvoiceRow extends Component {
         return(
             <>
                 <li className={styles.row}>
-                    <p className={styles.col__paid}>{this.props.date}</p>
                     <h3 className={styles.col__amount}>{getTotal(this.props.items)}</h3>
+                    <p className={styles.col__paid}>{this.props.date}</p>
+                    
                     <div className={styles.col__buttons}>
                         <button
                             className={`button__icon ${this.state.open ? 'flipped' : null}`}
@@ -195,14 +197,15 @@ class InvoiceRow extends Component {
     }
 }
 
-function InvoiceTable({invoices}) {
+function InvoiceList({invoices}) {
     return(
         <>
             <ul className={styles.list__invoices}>
                 {/* header row */}
-                <li className={styles.row}>
-                    <h6 className={styles.col__paid}>paid</h6>
+                <li className={`${styles.row} ${styles.th}`}>
                     <h6 className={styles.col__amount}>amount</h6>
+                    <h6 className={styles.col__paid}>paid</h6>
+                    <div className={styles.col__buttons} />
                 </li>
                 {invoices.map((invoice, index) => 
                     <InvoiceRow
@@ -213,10 +216,29 @@ function InvoiceTable({invoices}) {
                 )}
             </ul>
             {invoices.length >= 3 ?
-                <button className='button__text'>See All Invoices</button> :
+                <button className={`button__text ${styles.button__seeAll}`}>See All Invoices</button> :
                 null
             }
         </>
+    )
+}
+
+function Tables({campaigns, invoices, starting}) {
+    return(
+        <section className={styles.tables__container}>
+            <div>
+                <h2>Campaigns</h2>
+                <CampaignList campaigns={campaigns} />
+            </div>
+            <div>
+                <h2>Recent Invoices</h2>
+                {invoices.length !== 0 ?
+                    <InvoiceList invoices={invoices} /> :
+                    <p className={styles.table__empty}>{`No recent invoices. Invoicing starts: ${starting}`}</p>
+                }
+                
+            </div>
+        </section>
     )
 }
 
@@ -238,7 +260,12 @@ function Details(props) {
                 ending={moment(contract.ending).format("MMMM Do, YYYY")}
                 quantity={numeral(contract.quantity).format("0,0")}
             />
-            <DetailTabs
+            {/* <DetailTabs
+                campaigns={contract.campaigns}
+                invoices={contract.invoices}
+                starting={moment(contract.starting).format("MM/DD/YY")}
+            /> */}
+            <Tables
                 campaigns={contract.campaigns}
                 invoices={contract.invoices}
                 starting={moment(contract.starting).format("MM/DD/YY")}
