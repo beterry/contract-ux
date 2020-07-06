@@ -15,7 +15,8 @@ import {
     MdStore,
     MdEvent,
     MdToday,
-    MdLocalShipping
+    MdLocalShipping,
+    MdMoreVert
 } from 'react-icons/md'
 
 //components
@@ -42,7 +43,7 @@ function ActionButton({status}) {
 function Stat({title, value, children}) {
     return(
         <div className={styles.stat}>
-            <div className={styles.stat__icon}>{children}</div>
+            <div className={styles.stat_icon}>{children}</div>
             <h3>{value}</h3>
             <h6>{title}</h6>
         </div>
@@ -51,7 +52,7 @@ function Stat({title, value, children}) {
 
 function Stats({business, starting, ending, quantity}) {
     return(
-        <section className={styles.stat__container}>
+        <section className={styles.stats_container}>
             <Stat title='business' value={business}><MdStore size='1.5rem'/></Stat>
             <Stat title='invoicing starts' value={starting}><MdToday size='1.5rem'/></Stat>
             <Stat title='invoicing ends' value={ending}><MdEvent size='1.5rem'/></Stat>
@@ -60,62 +61,16 @@ function Stats({business, starting, ending, quantity}) {
     )
 }
 
-class DetailTabs extends Component {
-    constructor(props){
-        super(props)
-        this.state = {openTab: 1}
-        this.handleClick = this.handleClick.bind(this)
-    }
-
-    handleClick(newTab){
-        if (newTab === this.state.openTab){
-            return
-        }
-        this.setState({openTab: newTab})
-    }
-
-
-    render() {
-        let renderTab
-        if (this.state.openTab === 1){
-            renderTab = <CampaignList campaigns={this.props.campaigns} />
-        } else{
-            renderTab = <InvoiceList invoices={this.props.invoices} />
-            if(this.props.invoices.length === 0){
-                renderTab = <p className={styles.noInvoices}>{`Invoices start ${this.props.starting}`}</p>
-            }
-        }
-        return(
-            <section className={styles.tabs}>
-                <nav>
-                    <button
-                        className={this.state.openTab === 1 ? styles.tab__active : styles.tab__inactive}
-                        onClick={() => this.handleClick(1)}
-                    >
-                        Campaigns
-                    </button>
-                    <button
-                        className={this.state.openTab === 2 ? styles.tab__active : styles.tab__inactive}
-                        onClick={() => this.handleClick(2)}
-                    >
-                        Paid Invoices
-                    </button>
-                </nav>
-                {renderTab}
-            </section>
-        )
-    }
-}
-
 function CampaignList({campaigns}) {
     return(
-        <ul>
+        <ul className={styles.list_campaigns}>
             {/* header row */}
-            <li className={styles.row}>
-                <h6 className={styles.col__number}>#</h6>
-                <h6 className={styles.col__product}>product</h6>
-                <h6 className={styles.col__start}>starting</h6>
-                <div className={styles.col__buttons} />
+            <li className={styles.header_campaigns}>
+                <h6 className={styles.campaign_number}>#</h6>
+                <div className={styles.row_inner_campaign}>
+                    <h6 className={styles.col_product}>product</h6>
+                    <h6 className={styles.col_start}>starting</h6>
+                </div>
             </li>
             {campaigns.map((campaign, index) =>
                 <CampaignRow
@@ -131,11 +86,16 @@ function CampaignList({campaigns}) {
 
 function CampaignRow({number, product, start}) {
     return(
-        <li className={styles.row}>
-            <p className={styles.col__number}>{number}</p>
-            <h3 className={styles.col__product}>{product}</h3>
-            <p className={styles.col__start}>{start}</p>
-            <div className={styles.col__buttons}>
+        <li className={`${styles.row}`}>
+            <h3 className={styles.campaign_number}>{number}</h3>
+            <div className={styles.row_inner_campaign}>
+                <h3 className={styles.col_product}>{product}</h3>
+                <p className={styles.col_start}>{start}</p>
+            </div>
+            <div className={styles.button_dots}>
+                <button className='button__icon'><MdMoreVert size='1.5rem'/></button>
+            </div>
+            <div className={styles.button_actions}>
                 <button className='button__icon'><MdMap size='1.5rem'/></button>
                 <button className='button__icon'><MdImage size='1.5rem'/></button>
             </div>
@@ -148,12 +108,14 @@ function ItemRows({items}) {
         <>
         {items.map((item, index) =>
             <li
-                className={`${styles.row} text__gray`}
+                className={styles.row}
                 key={index}
             >
-                <p className={styles.col__amount}>{numeral(item.total).format("$0.00")}</p>
-                <p className={styles.col__paid}>{item.product}</p>
-                <div className={styles.col__buttons}>
+                <div className={styles.row_inner_item}>
+                    <p className={styles.col_item}>{item.product}</p>
+                    <p className={styles.col_cost}>{numeral(item.total).format("$0.00")}</p>
+                </div>
+                <div className={styles.button_download}>
                     <button
                         className='button__icon'
                     >
@@ -179,10 +141,11 @@ class InvoiceRow extends Component {
         return(
             <>
                 <li className={styles.row}>
-                    <h3 className={styles.col__amount}>{getTotal(this.props.items)}</h3>
-                    <p className={styles.col__paid}>{this.props.date}</p>
-                    
-                    <div className={styles.col__buttons}>
+                    <div className={styles.row_inner_invoice}>
+                        <h3 className={styles.col_total}>{getTotal(this.props.items)}</h3>
+                        <p className={styles.col_paid}>{this.props.date}</p>
+                    </div>
+                    <div className={styles.button_expand}>
                         <button
                             className={`button__icon ${this.state.open ? 'flipped' : null}`}
                             onClick={this.handleClick}
@@ -200,12 +163,11 @@ class InvoiceRow extends Component {
 function InvoiceList({invoices}) {
     return(
         <>
-            <ul className={styles.list__invoices}>
+            <ul className={styles.list_invoices}>
                 {/* header row */}
-                <li className={`${styles.row} ${styles.th}`}>
-                    <h6 className={styles.col__amount}>amount</h6>
-                    <h6 className={styles.col__paid}>paid</h6>
-                    <div className={styles.col__buttons} />
+                <li className={styles.header_invoices}>
+                    <h6 className={styles.col_total}>amount</h6>
+                    <h6 className={styles.col_paid}>paid</h6>
                 </li>
                 {invoices.map((invoice, index) => 
                     <InvoiceRow
@@ -216,7 +178,7 @@ function InvoiceList({invoices}) {
                 )}
             </ul>
             {invoices.length >= 3 ?
-                <button className={`button__text ${styles.button__seeAll}`}>See All Invoices</button> :
+                <button className='button__text'>See All Invoices</button> :
                 null
             }
         </>
@@ -225,7 +187,7 @@ function InvoiceList({invoices}) {
 
 function Tables({campaigns, invoices, starting}) {
     return(
-        <section className={styles.tables__container}>
+        <section className={styles.tables_container}>
             <div>
                 <h2>Campaigns</h2>
                 <CampaignList campaigns={campaigns} />
@@ -234,7 +196,7 @@ function Tables({campaigns, invoices, starting}) {
                 <h2>Recent Invoices</h2>
                 {invoices.length !== 0 ?
                     <InvoiceList invoices={invoices} /> :
-                    <p className={styles.table__empty}>{`No recent invoices. Invoicing starts: ${starting}`}</p>
+                    <p className={styles.table_empty}>{`No recent invoices. Invoicing starts: ${starting}`}</p>
                 }
                 
             </div>
@@ -246,9 +208,9 @@ function Details(props) {
     //reads URL param and sets contract based on id
     const contract = props.contracts[props.match.params.contractId]
     return(
-        <div className={styles.details}>
-            <section className={styles.container__title}>
-                <div className={styles.title}>
+        <div className={styles.container}>
+            <section className={styles.title_container}>
+                <div className={styles.title_left}>
                     <h1>{contract.name}</h1>
                     <Status status={contract.status} />
                 </div>

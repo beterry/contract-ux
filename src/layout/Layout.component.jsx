@@ -22,47 +22,56 @@ import {
     MdArrowBack
 } from 'react-icons/md'
 
-function NavDrawer({isOpen}) {
+function NavDrawer({isOpen, toggleMenu}) {
     return (
-        <nav className={isOpen ? styles.navDrawer__open : styles.navDrawer__closed}>
-            <div className={styles.logo}>
-                <img src={isOpen ? logo : fav} alt='Mail Shark' />
-            </div>
-            <ul className={styles.mainLinks}>
-                <li className={styles.drawer__inactive}>
-                    <MdDashboard size='1.5rem' color='#fff'/>
-                    <p>Dashboard</p>
-                </li>
-                <Link to='/contracts'>
-                    <li className={styles.drawer__active}>
-                        <MdDescription size='1.5rem' color='#fff'/>
-                        <p>Contracts</p>
+        <>
+            {isOpen ? 
+                <button
+                    className={styles.underlay}
+                    onClick={toggleMenu}
+                /> :
+                null
+            }
+            <nav className={isOpen ? styles.navDrawer__open : styles.navDrawer__closed}>
+                <div className={styles.logo}>
+                    <img src={isOpen ? logo : fav} alt='Mail Shark' />
+                </div>
+                <ul className={styles.mainLinks}>
+                    <li className={styles.drawer__inactive}>
+                        <MdDashboard size='1.5rem' color='#fff'/>
+                        <p>Dashboard</p>
                     </li>
-                </Link>
-                <li className={styles.drawer__inactive}>
-                    <MdEvent size='1.5rem' color='#fff'/>
-                    <p>Current Cycle</p>
-                </li>
-                <li className={styles.drawer__inactive}>
-                    <MdPublish size='1.5rem' color='#fff'/>
-                    <p>Files</p>
-                </li>
-                <li className={styles.drawer__inactive}>
-                    <MdPeople size='1.5rem' color='#fff'/>
-                    <p>Team</p>
-                </li>
-                <li className={styles.drawer__inactive}>
-                    <MdCreditCard size='1.5rem' color='#fff'/>
-                    <p>Billing Info</p>
-                </li>
-            </ul>
-            <ul className={styles.bottomLinks}>
-                <li className={styles.drawer__inactive}>
-                    <MdPowerSettingsNew size='1.5rem' color='#fff'/>
-                    <p>Logout</p>
-                </li>
-            </ul>
-        </nav>
+                    <Link to='/contracts'>
+                        <li className={styles.drawer__active}>
+                            <MdDescription size='1.5rem' color='#fff'/>
+                            <p>Contracts</p>
+                        </li>
+                    </Link>
+                    <li className={styles.drawer__inactive}>
+                        <MdEvent size='1.5rem' color='#fff'/>
+                        <p>Current Cycle</p>
+                    </li>
+                    <li className={styles.drawer__inactive}>
+                        <MdPublish size='1.5rem' color='#fff'/>
+                        <p>Files</p>
+                    </li>
+                    <li className={styles.drawer__inactive}>
+                        <MdPeople size='1.5rem' color='#fff'/>
+                        <p>Team</p>
+                    </li>
+                    <li className={styles.drawer__inactive}>
+                        <MdCreditCard size='1.5rem' color='#fff'/>
+                        <p>Billing Info</p>
+                    </li>
+                </ul>
+                <ul className={styles.bottomLinks}>
+                    <li className={styles.drawer__inactive}>
+                        <MdPowerSettingsNew size='1.5rem' color='#fff'/>
+                        <p>Logout</p>
+                    </li>
+                </ul>
+            </nav>
+        </>
     )
 }
 
@@ -130,7 +139,7 @@ function TopBar({toggleMenu}) {
 export default class Layout extends Component {
     constructor(props){
         super(props)
-        this.state = {drawerOpen: true}
+        this.state = {drawerOpen: false}
         this.toggleMenu = this.toggleMenu.bind(this)
     }
 
@@ -143,7 +152,7 @@ export default class Layout extends Component {
     render() {
         return (
             <div className={styles.layout}>
-                <NavDrawer isOpen={this.state.drawerOpen}/>
+                <NavDrawer isOpen={this.state.drawerOpen} toggleMenu={this.toggleMenu}/>
                 <div className={this.state.drawerOpen ? styles.right__open : styles.right__closed}>
                     <TopBar toggleMenu={this.toggleMenu}/>
                     <main>

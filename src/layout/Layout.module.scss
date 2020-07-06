@@ -37,10 +37,12 @@
     position: fixed;
     top: 0;
     bottom: 0;
+    left: 0;
     background: $p-800;
     box-shadow: 4px 0px 4px rgba(0,0,0,.25);
-    transition: .25s;
+    transition: all .25s;
     transition-timing-function: ease-out;
+    z-index: 2;
     ul{
         padding-inline-start: 0;
         margin-block-start: 0;
@@ -119,5 +121,37 @@
     }
     h5{
         color: white;
+    }
+}
+
+.underlay{
+    display: none;
+}
+
+//menu overlays content
+//scrim appears
+@media screen and (max-width: 47rem){
+    .right__open{
+        padding-left: 0;
+    }
+    
+    .right__closed{
+        padding-left: 0;
+    }
+    
+    .navDrawer__closed{
+        @include navDrawer;
+        width: 16rem;
+        left: -18rem;
+    }
+    .underlay{
+        display: block;
+        background: rgba(0, 0, 0, .85);
+        border: none;
+        border-radius: none;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100vw;
     }
 }
