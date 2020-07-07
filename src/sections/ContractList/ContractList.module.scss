@@ -1,34 +1,52 @@
 @import "../../styles/colors.scss";
 
-.contractList{
-    padding: 2rem;
+.list_contracts{
+    padding: 1rem;
     ul{
         padding-inline-start: 0;
         margin-block-start: 0;
         margin-block-end: 0;
+
+        // space between button and list
         margin-bottom: 3rem;
-    }
-    h5{
-        padding: 1rem;
     }
 }
 
 @mixin row{
+    position: relative;
     display: flex;
+    align-items: center;
     list-style-type: none;
-    
+    min-height: 3rem;
+    padding: 1rem;
     border-bottom: 1px solid $gray-10;
 }
 
 .contract{
     @include row;
-    button{
-        margin-left: .5rem;
+}
+
+.row_inner__contract{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding-right: 1rem;
+    overflow: hidden;
+    div{
+        overflow: hidden;
+        p, h3{
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+        p{
+            color: $gray-60;
+        }
     }
 }
 
 .header{
-    @include row;
+    display: none;
 }
 
 .contract:hover{
@@ -41,48 +59,18 @@
     align-items: center;
     padding: .8125rem 1rem;
     min-height: 3rem;
-    overflow: hidden;
-    
-    h3{
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-    }
-    p{
-        color: $gray-60;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-    }
 }
 
-.col__name{
-    @include col;
-    flex: 2 2 0;
+.col_quantity{
+    display: none;
 }
 
-.col__starting{
-    @include col;
-    flex: 1 1 0;
-}
-
-.col__business{
-    @include col;
-    flex: 1.5 1 0;
-}
-
-.col__quantity{
-    @include col;
-    flex: .5 2 0;
-    justify-content: flex-end;
-}
-
-.col__status{
-    flex: 2 2 0;
-    overflow: hidden;
+.col_status{
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    div:first-child{
+        margin-right: .5rem;
+    }
 }
 
 .sortArrow{
@@ -92,12 +80,44 @@
     flex-shrink: 0;
 }
 
-.th{
+.button_header{
     background: none;
     border: none;
 }
 
-.th:hover{
+.button_header:hover{
     background: #fafafa;
     cursor: pointer;
+}
+
+//list into table
+@media only screen and (min-width: 55rem){
+    .contract{
+        padding: 0;
+    }
+    .row_inner__contract{
+        padding-right: 25%;
+        flex-direction: row;
+    }
+    .col_name{
+        @include col;
+        flex: 2 0 0;
+    }
+    .col_starting, .col_business{
+        @include col;
+        flex: 1 0 0;
+    }
+    .col_quantity{
+        @include col;
+        flex: 1 0 0;
+        justify-content: flex-end;
+    }
+    .col_status{
+        position: absolute;
+        right: 0;
+    }  
+     .header{
+        @include row;
+        padding: 0 25% 0 0;
+     }
 }

@@ -18,15 +18,15 @@ function Contract({name, business, quantity, starting, status, id}) {
     return (
         <Link to={`/contracts/${id}`}>
             <li className={styles.contract}>
-
-                <div className={styles.col__name}><h3>{name}</h3></div>
-                <div className={styles.col__starting}><p>{starting}</p></div>
-                <div className={styles.col__business}><p>{business}</p></div>
-                <div className={styles.col__quantity}><p>{quantity}</p></div>
-
-                <div className={styles.col__status}>
+                <div className={styles.row_inner__contract}>
+                    <div className={styles.col_name}><h3>{name}</h3></div>
+                    <div className={styles.col_starting}><p>{starting}</p></div>
+                    <div className={styles.col_business}><p>{business}</p></div>
+                    <div className={styles.col_quantity}><p>{quantity}</p></div>
+                </div>
+                <div className={styles.col_status}>
                     <Status status={status} />
-                    <button className='button__icon'><MdChevronRight size='1.5rem' /></button>
+                    <MdChevronRight size='1.5rem' />
                 </div>
             </li>
         </Link>
@@ -43,11 +43,11 @@ export default function ContractList ({
 }) {
         
     return (
-        <section className={styles.contractList}>
+        <section className={styles.list_contracts}>
             <ul>
                 <li className={styles.header}>
                     <button
-                        className={`${styles.col__name} ${styles.th}`}
+                        className={`${styles.col_name} ${styles.button_header}`}
                         onClick={(e) => changeSort('nameDesc', e)}
                     >
                         <h6>name</h6>
@@ -60,7 +60,7 @@ export default function ContractList ({
                         }
                     </button>
                     <button
-                        className={`${styles.col__starting} ${styles.th}`}
+                        className={`${styles.col_starting} ${styles.button_header}`}
                         onClick={(e) => changeSort('dateDesc', e)}
                     >
                         <h6>starting</h6>
@@ -73,7 +73,7 @@ export default function ContractList ({
                         }
                     </button>
                     <button
-                        className={`${styles.col__business} ${styles.th}`}
+                        className={`${styles.col_business} ${styles.button_header}`}
                         onClick={(e) => changeSort('busDesc', e)}
                     >
                         <h6>business</h6>
@@ -86,7 +86,7 @@ export default function ContractList ({
                         }
                     </button>
                     <button
-                        className={`${styles.col__quantity} ${styles.th}`}
+                        className={`${styles.col_quantity} ${styles.button_header}`}
                         onClick={(e) => changeSort('quantityDesc', e)}
                     >
                         {
@@ -98,14 +98,14 @@ export default function ContractList ({
                         }
                         <h6>quantity</h6>
                     </button>
-                    <div className={styles.col__status} />
+                    <div className={styles.col_status} />
                 </li>
                 {sortedContracts.map(contract => 
                     <Contract 
                         name={contract.name}
                         business={contract.business}
                         quantity={numeral(contract.quantity).format("0,0")}
-                        starting={moment(contract.starting).format("MM/DD/YYYY")}
+                        starting={moment(contract.starting).format("MM/DD/YY")}
                         status={contract.status}
                         key={contract.id}
                         id={contract.id}
