@@ -15,12 +15,12 @@ import {
     MdStore,
     MdEvent,
     MdToday,
-    MdLocalShipping,
-    MdMoreVert
+    MdLocalShipping
 } from 'react-icons/md'
 
 //components
 import Status from '../../components/Status/Status.component'
+import Menu from '../../components/Menu/Menu.component'
 
 //param: array
 //adds together item totals
@@ -93,7 +93,7 @@ function CampaignRow({number, product, start}) {
                 <p className={styles.col_start}>{start}</p>
             </div>
             <div className={styles.button_dots}>
-                <button className='button__icon'><MdMoreVert size='1.5rem'/></button>
+                <Menu />
             </div>
             <div className={styles.button_actions}>
                 <button className='button__icon'><MdMap size='1.5rem'/></button>
