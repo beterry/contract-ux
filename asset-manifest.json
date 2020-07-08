@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/contract-ux/static/css/main.48cc9dee.chunk.css",
+    "main.css": "/contract-ux/static/css/main.c81f5737.chunk.css",
     "main.js": "/contract-ux/static/js/main.bea52f7b.chunk.js",
     "main.js.map": "/contract-ux/static/js/main.bea52f7b.chunk.js.map",
     "runtime-main.js": "/contract-ux/static/js/runtime-main.bb5e0721.js",
@@ -8,9 +8,9 @@
     "static/js/2.2311d82a.chunk.js": "/contract-ux/static/js/2.2311d82a.chunk.js",
     "static/js/2.2311d82a.chunk.js.map": "/contract-ux/static/js/2.2311d82a.chunk.js.map",
     "index.html": "/contract-ux/index.html",
-    "precache-manifest.aab9ebce47ad03cb4910d61e355c457f.js": "/contract-ux/precache-manifest.aab9ebce47ad03cb4910d61e355c457f.js",
+    "precache-manifest.dab94e7b410151a7cbd714fa70067a66.js": "/contract-ux/precache-manifest.dab94e7b410151a7cbd714fa70067a66.js",
     "service-worker.js": "/contract-ux/service-worker.js",
-    "static/css/main.48cc9dee.chunk.css.map": "/contract-ux/static/css/main.48cc9dee.chunk.css.map",
+    "static/css/main.c81f5737.chunk.css.map": "/contract-ux/static/css/main.c81f5737.chunk.css.map",
     "static/js/2.2311d82a.chunk.js.LICENSE.txt": "/contract-ux/static/js/2.2311d82a.chunk.js.LICENSE.txt",
     "static/media/favicon.svg": "/contract-ux/static/media/favicon.0cd7302e.svg",
     "static/media/logo.svg": "/contract-ux/static/media/logo.675a983c.svg"
@@ -18,7 +18,7 @@
   "entrypoints": [
     "static/js/runtime-main.bb5e0721.js",
     "static/js/2.2311d82a.chunk.js",
-    "static/css/main.48cc9dee.chunk.css",
+    "static/css/main.c81f5737.chunk.css",
     "static/js/main.bea52f7b.chunk.js"
   ]
 }
