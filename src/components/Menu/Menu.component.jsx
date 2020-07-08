@@ -6,6 +6,7 @@ import styles from './Menu.module.scss'
 //import icons
 import {MdMoreVert} from 'react-icons/md'
 
+//dropdown menu
 function Dropdown() {
     return(
         <ul className={styles.dropdown}>
@@ -15,6 +16,8 @@ function Dropdown() {
     )
 }
 
+//renders button
+//state.menuOpen determines wheter to render menu
 export default class Menu extends Component {
     constructor(props){
         super(props)
@@ -34,12 +37,14 @@ export default class Menu extends Component {
         this.setState({menuOpen: false})
     }
 
+    //prevent memory leak if back button is pressed while menu is open
     componentWillUnmount() {
         document.removeEventListener('click', this.closeMenu)
         this.setState({menuOpen: false})
     }
     
     render() {
+        //if menu is open -> any click will dismiss
         if(this.state.menuOpen){
             document.addEventListener('click', this.closeMenu)
         }
@@ -51,6 +56,7 @@ export default class Menu extends Component {
                 >
                     <MdMoreVert size='1.5rem'/>
                 </button>
+                {/* conditionally render menu */}
                 {this.state.menuOpen ? 
                     <Dropdown />:
                     null

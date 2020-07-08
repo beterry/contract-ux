@@ -22,9 +22,12 @@ import {
     MdArrowBack
 } from 'react-icons/md'
 
+//main navigation aside menu
+//props.isOpen sets styles to either show or hide
 function NavDrawer({isOpen, toggleMenu}) {
     return (
         <>
+            {/* render scrim behind menu on mobile */}
             {isOpen ? 
                 <button
                     className={styles.underlay}
@@ -32,10 +35,12 @@ function NavDrawer({isOpen, toggleMenu}) {
                 /> :
                 null
             }
+            {/* main nav component */}
             <nav className={isOpen ? styles.navDrawer__open : styles.navDrawer__closed}>
                 <div className={styles.logo}>
                     <img src={isOpen ? logo : fav} alt='Mail Shark' />
                 </div>
+                {/* list of link */}
                 <ul className={styles.mainLinks}>
                     <li className={styles.drawer__inactive}>
                         <MdDashboard size='1.5rem' color='#fff'/>
@@ -75,6 +80,7 @@ function NavDrawer({isOpen, toggleMenu}) {
     )
 }
 
+//top app bar
 function TopBar({toggleMenu}) {
     let history = useHistory()
     function handleClick() {
@@ -83,8 +89,9 @@ function TopBar({toggleMenu}) {
     return (
         <nav className={styles.topBar}>
             <div>
-                {/* Back Button */}
+                {/* Left Button */}
                 <Switch>
+                    {/* menu icon */}
                     <Route path="/contracts/:contractId">
                         <button
                             className='button__icon'
@@ -96,7 +103,8 @@ function TopBar({toggleMenu}) {
                             />
                         </button>
                     </Route>
-                    <Route path="/contracts">
+                    {/* back arrow icon */}
+                    <Route path="*">
                         <button
                             className='button__icon'
                             onClick={toggleMenu}
@@ -117,9 +125,13 @@ function TopBar({toggleMenu}) {
                     <Route path="/contracts">
                         <h5>Contracts</h5>
                     </Route>
+                    <Route path="*">
+                        <h5>About this Project</h5>
+                    </Route>
                 </Switch>
             </div>
             <div>
+                {/* Right Button */}
                 <Switch>
                     <Route path="/contracts/:contractId">
                         <button className='button__icon'>
@@ -136,6 +148,7 @@ function TopBar({toggleMenu}) {
     )
 }
 
+//adds navigation and top bar to all pages
 export default class Layout extends Component {
     constructor(props){
         super(props)

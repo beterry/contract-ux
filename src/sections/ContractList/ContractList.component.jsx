@@ -5,8 +5,8 @@ import {Link} from 'react-router-dom'
 import styles from './ContractList.module.scss'
 
 //import libraries
-import moment from 'moment'
-import numeral from 'numeral'
+import moment from 'moment' //for formatting dates
+import numeral from 'numeral' //for formatting numbers
 
 //import components
 import Status from '../../components/Status/Status.component'
@@ -14,6 +14,7 @@ import Status from '../../components/Status/Status.component'
 //import icons
 import {MdChevronRight, MdArrowDownward, MdArrowDropDown} from 'react-icons/md'
 
+//row in the list
 function Contract({name, business, quantity, starting, status, id}) {
     return (
         <Link to={`/contracts/${id}`}>
@@ -33,6 +34,8 @@ function Contract({name, business, quantity, starting, status, id}) {
     )
 }
 
+//sorting dropdown menu on mobile screens
+//props.children is the menu which is toggled based on menuOpen
 class SortDropdown extends Component{
     constructor(props){
         super(props)
@@ -54,16 +57,19 @@ class SortDropdown extends Component{
         this.setState({menuOpen: false})
     }
 
+    //prevent memory leak if contract is clicked when the menu is open
     componentWillUnmount() {
         document.removeEventListener('click', this.closeMenu)
         this.setState({menuOpen: false})
     }
 
     render() {
+        //sets event listener so any click closes the menu
         if(this.state.menuOpen){
             document.addEventListener('click', this.closeMenu)
         }
         let sortText = ''
+        //determine the text displayed to the user
         switch(this.props.sort){
             case 'dateDesc':
                 sortText = 'Most Recent'
@@ -110,9 +116,9 @@ export default function ContractList ({
     showCompleted,
     numberCompleted
 }) {
-        
     return (
         <section className={styles.list_contracts}>
+            {/* sorting dropdown renders on mobile screens */}
             <SortDropdown sort={sort}>
                 <ul className={styles.dropdown}>
                     <button onClick={(e) => changeSort('dateDesc', e)}>Most Recent</button>
@@ -123,7 +129,9 @@ export default function ContractList ({
                     <button onClick={(e) => changeSort('busAsc', e)}>Business: Z-A</button>
                 </ul>
             </SortDropdown>
+            {/* start of contract list */}
             <ul>
+                {/* header row with buttons for sorting on desktop screens */}
                 <li className={styles.header}>
                     <button
                         className={`${styles.col_name} ${styles.button_header}`}
@@ -195,6 +203,7 @@ export default function ContractList ({
                     </button>
                     <div className={styles.col_status} />
                 </li>
+                {/* loop over array of contracts and render a row for each */}
                 {sortedContracts.map(contract => 
                     <Contract 
                         name={contract.name}
@@ -206,7 +215,9 @@ export default function ContractList ({
                         id={contract.id}
                     />
                 )}
+            {/* end of contract list */}
             </ul>
+            {/* button shows completed */}
             <button
                 className='button__text'
                 onClick={toggleCompleted}

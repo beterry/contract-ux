@@ -17,6 +17,7 @@ import Layout from './layout/Layout.component'
 //import sections
 import ContractList from './sections/ContractList/ContractList.component'
 import Details from './sections/Details/Details.component'
+import Message from './sections/Message/Message.component'
 
 //import utility function
 import sortContracts from './utility/sortContracts'
@@ -24,6 +25,9 @@ import sortContracts from './utility/sortContracts'
 //combine data to pass to children components
 const data = {...data1, ...data2}
 
+//App component holds state for sorting
+//so when ContractList renders, the user doesn't lose
+//the sort settings
 class App extends Component {
   constructor(props){
     super(props)
@@ -37,14 +41,15 @@ class App extends Component {
   }
 
   toggleCompleted() {
-      this.setState((state, props) => ({showCompleted: !state.showCompleted}))
+    this.setState((state, props) => ({showCompleted: !state.showCompleted}))
   }
 
   changeSort(newSort, e) {
-      if(this.state.sort === newSort) {
-          return
-      }
-      this.setState({sort: newSort})
+    //do nothing
+    if(this.state.sort === newSort) {
+        return
+    }
+    this.setState({sort: newSort})
   }
 
   render(){
@@ -54,7 +59,9 @@ class App extends Component {
     if (!this.state.showCompleted) {
         sortedContracts = sortedContracts.filter((contract) => contract.status !== 2)
     }
-    // function to sort array based on state
+
+    //function to sort array based on state
+    //found in utility folder
     sortedContracts = sortContracts(this.state.sort, sortedContracts)
 
     //calculate # of completed contracts to pass to list
@@ -69,9 +76,11 @@ class App extends Component {
       <Router>
         <Layout>
           <Switch>
+            {/* render Details section*/}
             <Route path="/contracts/:contractId">
               <Details contracts={data}/>
             </Route>
+            {/* render ContractList section*/}
             <Route path="/contracts">
               <ContractList
                 sortedContracts={sortedContracts}
@@ -81,6 +90,10 @@ class App extends Component {
                 showCompleted={this.state.showCompleted}
                 numberCompleted={numberCompleted}
               />
+            </Route>
+            {/* render Message section for everything else*/}
+            <Route exact path="*">
+              <Message />
             </Route>
           </Switch>
         </Layout>

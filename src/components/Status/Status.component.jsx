@@ -1,7 +1,9 @@
 import React from 'react'
 
+//import styles
 import styles from './Status.module.scss'
 
+//determines string and background of status pill
 export default function Status({status}) {
     let statusClass = ''
     let statusString = ''

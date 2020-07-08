@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import {withRouter} from 'react-router-dom'
-import moment from 'moment'
-import numeral from 'numeral'
+
+//import libraries
+import moment from 'moment' //for formatting dates
+import numeral from 'numeral' //for formatting numbers
 
 //import styles
 import styles from './Details.module.scss'
@@ -24,12 +26,14 @@ import Menu from '../../components/Menu/Menu.component'
 
 //param: array
 //adds together item totals
+//returns formatted string
 const getTotal = (items) => {
     let total = 0
     items.forEach((item) => total += item.total)
     return numeral(total).format("$0.00")
 }
 
+//conditionally renders action based on contracts status
 function ActionButton({status}) {
     return(
         <div className={styles.action}>
@@ -40,6 +44,8 @@ function ActionButton({status}) {
     )
 }
 
+//one stat block
+//props.children = icon
 function Stat({title, value, children}) {
     return(
         <div className={styles.stat}>
@@ -50,6 +56,8 @@ function Stat({title, value, children}) {
     )
 }
 
+
+//all 4 stat blocks
 function Stats({business, starting, ending, quantity}) {
     return(
         <section className={styles.stats_container}>
@@ -61,6 +69,7 @@ function Stats({business, starting, ending, quantity}) {
     )
 }
 
+//list of campaigns in the contract
 function CampaignList({campaigns}) {
     return(
         <ul className={styles.list_campaigns}>
@@ -72,6 +81,7 @@ function CampaignList({campaigns}) {
                     <h6 className={styles.col_start}>starting</h6>
                 </div>
             </li>
+            {/* loop over campaigns and render a row for each */}
             {campaigns.map((campaign, index) =>
                 <CampaignRow
                     number={index + 1}
@@ -84,6 +94,7 @@ function CampaignList({campaigns}) {
     )
 }
 
+//campaign row
 function CampaignRow({number, product, start}) {
     return(
         <li className={`${styles.row}`}>
@@ -92,9 +103,11 @@ function CampaignRow({number, product, start}) {
                 <h3 className={styles.col_product}>{product}</h3>
                 <p className={styles.col_start}>{start}</p>
             </div>
+            {/* menu on mobile */}
             <div className={styles.button_dots}>
                 <Menu />
             </div>
+            {/* expanded buttons on desktop */}
             <div className={styles.button_actions}>
                 <button className='button__icon'><MdMap size='1.5rem'/></button>
                 <button className='button__icon'><MdImage size='1.5rem'/></button>
@@ -103,6 +116,7 @@ function CampaignRow({number, product, start}) {
     )
 }
 
+//renders all items in an invoice
 function ItemRows({items}) {
     return(
         <>
@@ -128,6 +142,8 @@ function ItemRows({items}) {
     )
 }
 
+//invoice row
+//state determines if items are rendered
 class InvoiceRow extends Component {
     constructor(props){
         super(props)
@@ -146,6 +162,7 @@ class InvoiceRow extends Component {
                         <p className={styles.col_paid}>{this.props.date}</p>
                     </div>
                     <div className={styles.button_expand}>
+                        {/* conditionally flip button */}
                         <button
                             className={`button__icon ${this.state.open ? 'flipped' : null}`}
                             onClick={this.handleClick}
@@ -160,6 +177,7 @@ class InvoiceRow extends Component {
     }
 }
 
+//list of invoices in the contract
 function InvoiceList({invoices}) {
     return(
         <>
@@ -169,6 +187,7 @@ function InvoiceList({invoices}) {
                     <h6 className={styles.col_total}>amount</h6>
                     <h6 className={styles.col_paid}>paid</h6>
                 </li>
+                {/* loop through invoices and render a row for each */}
                 {invoices.map((invoice, index) => 
                     <InvoiceRow
                         date={moment(invoice.date).format("MM/DD/YY")}
@@ -177,6 +196,7 @@ function InvoiceList({invoices}) {
                     />
                 )}
             </ul>
+            {/* TODO: add state to track how many invoices to render */}
             {invoices.length >= 3 ?
                 <button className='button__text'>See All Invoices</button> :
                 null
@@ -185,6 +205,7 @@ function InvoiceList({invoices}) {
     )
 }
 
+//layout for tables
 function Tables({campaigns, invoices, starting}) {
     return(
         <section className={styles.tables_container}>
@@ -194,11 +215,11 @@ function Tables({campaigns, invoices, starting}) {
             </div>
             <div>
                 <h2>Recent Invoices</h2>
+                {/* conditionally render message if there are no invoices */}
                 {invoices.length !== 0 ?
                     <InvoiceList invoices={invoices} /> :
                     <p className={styles.table_empty}>{`No recent invoices. Invoicing starts: ${starting}`}</p>
                 }
-                
             </div>
         </section>
     )
@@ -222,11 +243,6 @@ function Details(props) {
                 ending={moment(contract.ending).format("MMMM Do, YYYY")}
                 quantity={numeral(contract.quantity).format("0,0")}
             />
-            {/* <DetailTabs
-                campaigns={contract.campaigns}
-                invoices={contract.invoices}
-                starting={moment(contract.starting).format("MM/DD/YY")}
-            /> */}
             <Tables
                 campaigns={contract.campaigns}
                 invoices={contract.invoices}
