@@ -2,7 +2,6 @@
 
 * {
     box-sizing: border-box;
-    -webkit-text-size-adjust: none;
   }
 
 body{
@@ -157,6 +156,9 @@ button{
     background: none;
     border-radius: 50%;
     cursor: pointer;
+    svg{
+        flex-shrink: 0;
+    }
 }
 
 .button__icon:hover{
