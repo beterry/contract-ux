@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/contract-ux/static/css/main.1f39eb03.chunk.css",
+    "main.js": "/contract-ux/static/js/main.bea52f7b.chunk.js",
+    "main.js.map": "/contract-ux/static/js/main.bea52f7b.chunk.js.map",
+    "runtime-main.js": "/contract-ux/static/js/runtime-main.bb5e0721.js",
+    "runtime-main.js.map": "/contract-ux/static/js/runtime-main.bb5e0721.js.map",
+    "static/js/2.2311d82a.chunk.js": "/contract-ux/static/js/2.2311d82a.chunk.js",
+    "static/js/2.2311d82a.chunk.js.map": "/contract-ux/static/js/2.2311d82a.chunk.js.map",
+    "index.html": "/contract-ux/index.html",
+    "precache-manifest.bbb0a900d855ec4fb961f19a6cbacc98.js": "/contract-ux/precache-manifest.bbb0a900d855ec4fb961f19a6cbacc98.js",
+    "service-worker.js": "/contract-ux/service-worker.js",
+    "static/css/main.1f39eb03.chunk.css.map": "/contract-ux/static/css/main.1f39eb03.chunk.css.map",
+    "static/js/2.2311d82a.chunk.js.LICENSE.txt": "/contract-ux/static/js/2.2311d82a.chunk.js.LICENSE.txt",
+    "static/media/favicon.svg": "/contract-ux/static/media/favicon.0cd7302e.svg",
+    "static/media/logo.svg": "/contract-ux/static/media/logo.675a983c.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.bb5e0721.js",
+    "static/js/2.2311d82a.chunk.js",
+    "static/css/main.1f39eb03.chunk.css",
+    "static/js/main.bea52f7b.chunk.js"
+  ]
+}
