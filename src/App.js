@@ -42,23 +42,6 @@ class App extends Component {
 
   changeSort(newSort, e) {
       if(this.state.sort === newSort) {
-          switch(newSort) {
-              case 'dateDesc':
-                  this.setState({sort: 'dateAsc'})
-                  break
-              case 'quantityDesc':
-                  this.setState({sort: 'quantityAsc'})
-                  break
-              case 'nameDesc':
-                  this.setState({sort: 'nameAsc'})
-                  break
-              case 'busDesc':
-                  this.setState({sort: 'busAsc'})
-                  break
-              default:
-                  this.setState({sort: 'dateDesc'})
-                  break
-          }
           return
       }
       this.setState({sort: newSort})

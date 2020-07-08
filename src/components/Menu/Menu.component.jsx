@@ -34,6 +34,11 @@ export default class Menu extends Component {
         this.setState({menuOpen: false})
     }
 
+    componentWillUnmount() {
+        document.removeEventListener('click', this.closeMenu)
+        this.setState({menuOpen: false})
+    }
+    
     render() {
         if(this.state.menuOpen){
             document.addEventListener('click', this.closeMenu)

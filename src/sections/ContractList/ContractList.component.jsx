@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import {Link} from 'react-router-dom'
 
 //import styles
@@ -12,7 +12,7 @@ import numeral from 'numeral'
 import Status from '../../components/Status/Status.component'
 
 //import icons
-import {MdChevronRight, MdArrowDownward} from 'react-icons/md'
+import {MdChevronRight, MdArrowDownward, MdArrowDropDown} from 'react-icons/md'
 
 function Contract({name, business, quantity, starting, status, id}) {
     return (
@@ -33,6 +33,75 @@ function Contract({name, business, quantity, starting, status, id}) {
     )
 }
 
+class SortDropdown extends Component{
+    constructor(props){
+        super(props)
+        this.state = {
+            menuOpen: false
+        }
+        this.openMenu = this.openMenu.bind(this)
+        this.closeMenu = this.closeMenu.bind(this)
+    }
+
+    openMenu() {
+        if (!this.state.menuOpen) {
+            this.setState({menuOpen: true})
+        }
+    }
+
+    closeMenu() {
+        document.removeEventListener('click', this.closeMenu)
+        this.setState({menuOpen: false})
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('click', this.closeMenu)
+        this.setState({menuOpen: false})
+    }
+
+    render() {
+        if(this.state.menuOpen){
+            document.addEventListener('click', this.closeMenu)
+        }
+        let sortText = ''
+        switch(this.props.sort){
+            case 'dateDesc':
+                sortText = 'Most Recent'
+                break
+            case 'dateAsc':
+                sortText = 'Oldest'
+                break
+            case 'nameDesc':
+                sortText = 'Name: A-Z'
+                break
+            case 'nameAsc':
+                sortText = 'Name: Z-A'
+                break
+            case 'busDesc':
+                sortText = 'Business: A-Z'
+                break
+            case 'busAsc':
+                sortText = 'Business: Z-A'
+                break
+            default:
+                sortText = 'Default'
+        }
+        return (
+            <div className={styles.dropdown_container}>
+                <p>Sort by</p>
+                <button
+                    className={styles.button_dropdown}
+                    onClick={this.openMenu}
+                >
+                    <p>{sortText}</p>
+                    <MdArrowDropDown size='1.5rem'/>
+                </button>
+                {this.state.menuOpen ? this.props.children : null}
+            </div>
+        )
+    }
+}
+
 export default function ContractList ({
     sortedContracts,
     changeSort,
@@ -44,11 +113,25 @@ export default function ContractList ({
         
     return (
         <section className={styles.list_contracts}>
+            <SortDropdown sort={sort}>
+                <ul className={styles.dropdown}>
+                    <button onClick={(e) => changeSort('dateDesc', e)}>Most Recent</button>
+                    <button onClick={(e) => changeSort('dateAsc', e)}>Oldest</button>
+                    <button onClick={(e) => changeSort('nameDesc', e)}>Name: A-Z</button>
+                    <button onClick={(e) => changeSort('nameAsc', e)}>Name: Z-A</button>
+                    <button onClick={(e) => changeSort('busDesc', e)}>Business: A-Z</button>
+                    <button onClick={(e) => changeSort('busAsc', e)}>Business: Z-A</button>
+                </ul>
+            </SortDropdown>
             <ul>
                 <li className={styles.header}>
                     <button
                         className={`${styles.col_name} ${styles.button_header}`}
-                        onClick={(e) => changeSort('nameDesc', e)}
+                        onClick={
+                            sort === 'nameDesc' ?
+                            (e) => changeSort('nameAsc', e) :
+                            (e) => changeSort('nameDesc', e)
+                        }
                     >
                         <h6>name</h6>
                         {
@@ -61,7 +144,11 @@ export default function ContractList ({
                     </button>
                     <button
                         className={`${styles.col_starting} ${styles.button_header}`}
-                        onClick={(e) => changeSort('dateDesc', e)}
+                        onClick={
+                            sort === 'dateDesc' ?
+                            (e) => changeSort('dateAsc', e) :
+                            (e) => changeSort('dateDesc', e)
+                        }
                     >
                         <h6>starting</h6>
                         {
@@ -74,7 +161,11 @@ export default function ContractList ({
                     </button>
                     <button
                         className={`${styles.col_business} ${styles.button_header}`}
-                        onClick={(e) => changeSort('busDesc', e)}
+                        onClick={
+                            sort === 'busDesc' ?
+                            (e) => changeSort('busAsc', e) :
+                            (e) => changeSort('busDesc', e)
+                        }
                     >
                         <h6>business</h6>
                         {
@@ -87,7 +178,11 @@ export default function ContractList ({
                     </button>
                     <button
                         className={`${styles.col_quantity} ${styles.button_header}`}
-                        onClick={(e) => changeSort('quantityDesc', e)}
+                        onClick={
+                            sort === 'quantityDesc' ?
+                            (e) => changeSort('quantityAsc', e) :
+                            (e) => changeSort('quantityDesc', e)
+                        }
                     >
                         {
                             /* conditionally render arrow */
