@@ -1,24 +1,17 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Updating Mail Shark’s Customer Portal
 
-### `npm start`
+A detailed look at how I planned, designed, and prototyped a new interface for customers to view their Mail Shark contracts.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+[Deployed code](https://beterry.github.io/contract-ux/)
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+[Full blog post](https://benterry.dev/work/contract-ux/)
 
-# About this Project
-
-## Customer Portal
+## About Mail Shark’s customer portal
 
 Mail Shark is an industry-leading direct mail and print company located in Mohnton, Pennsylvania. They offer many different services including unique, pay-weekly mailing programs and commercial printing. After enrolling in a program at Mail Shark, a customer gets access to an online portal where they can view contract details, upload files, and much more.
 
-As UI/UX Designer at Mail Shark, I was assigned to redesign the customer portal UI.
+In 2020, redesigning the customer portal was a priority for Mail Shark's marketing department. As UI/UX Designer, I was responsible for the planning, designing, and developing the prototype for the improved customer experience. 
 
-## Contract UX
+## Developing the prototype
 
-I developed the Contracts feature of the customer portal as a coding challenge for myself.
-
-The Contracts feature of the customer portal allows a customer to view the list of their active and completed mailing/printing contracts (programs). The user can click on a contract in the list and view additional information, such as campaigns in a mailing program and recent weekly invoices.
-
+Although XD has powerful prototyping features, I developed a functional prototype to more adequately show the effectiveness of the new interface.
